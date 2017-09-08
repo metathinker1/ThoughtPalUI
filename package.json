@@ -1,0 +1,14 @@
+{
+  "name": "thoughtpal-ui",
+  "version": "0.1.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "prestart": "npm install",
+    "start": "node server.js --open"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
+}
