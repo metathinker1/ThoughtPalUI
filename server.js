@@ -1,27 +1,19 @@
 
-var http = require('http'),
-    path = require('path'),
-    fs = require('fs'),
-    url = require('url');
+const connect = require('connect'),
+  serveStatic = require('serve-static'),
+  open = require('open');
 
-// TODO: Use configuration to set this; or start in this directory
-var noteDocRepoDir = '/Users/robertwood/Google Drive/NoteDocRepo/'
+const openBrowserOnListen = true;
 
-// {DataLink:URL:https://stackoverflow.com/questions/8590042/parsing-query-string-in-node-js}
-var server = http.createServer(function(request, response){
-  var queryParams = url.parse(request.url, true).query;
-  console.log(queryParams.dir + ', ' + queryParams.file)
-  var filePathName = noteDocRepoDir + queryParams.dir + '/' + queryParams.file;
-  console.log(filePathName)
+const app = connect()
 
-  response.writeHead(200, { 'Content-Type': 'text/plain' });
-  fs.readFile(filePathName, 'utf8', function (err, data) {
-    if (err) {
-      return console.log(err);
-    }
-    response.write(data);
-    response.end();
-  });
+app.use(serveStatic(__dirname), {dotfiles:'ignore'})
 
-}).listen(5011);
-console.log('Ready')
+app.use('/', function mainPageHandler(req, res, next) {
+  res.end('')
+});
+
+app.listen(5012, function function_name(argument) {
+  if (openBrowserOnListen) open('http://localhost:5012/')
+});
+
