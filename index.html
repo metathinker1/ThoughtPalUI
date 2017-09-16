@@ -3,11 +3,64 @@
 <head>
 <title>ThoughtPal</title>
 <script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
-<script type="text/javascript">
-	
-</script>
+<script type="text/javascript" src="noteDocAccess.js"></script>
 </head>
 <body>
 <p>Hello, world!</p>
+	<div id="note-doc-controller">
+	<p>note-doc-controller</p>
+	</div>
+	<div id="directory-chooser">
+	<h2>Choose Directory</h2>
+	<select id="choose-directory" class="dropbtn">Choose Directory</button>
+	</div>
+	<div id="file-chooser">
+	<p>file-chooser</p>
+	</div>
+	<button id="choose-file">Choose File</button>
+<script type="text/javascript">
+	// TODO: Invg Why nested div did not work 
+	// TODO: Add drop down list to $('#choose-directory') and switch usage below to use
+	$(document).ready(function() {
+		$("#note-doc-controller").text("Doc is ready");
+		$('#choose-directory').append("<option>None selected</option>");
+		// const dirs = getDirectories($);
+		// for (var ix = 0; ix < dirs.length; ix++) {
+		// 	console.log(dirs[ix] + ", ");
+		// 	// See for doing with JSON: https://stackoverflow.com/questions/18484762/populating-drop-down-with-json-object
+		// 	$('#choose-directory').append("<option>" + dirs[ix] + "</option>");
+		// }
+		
+		// const dirs = getDirectories($);
+		// $.each(dirs, function(key, value) {
+		// 	$('#choose-directory').append("<option>" + value + "</option>");
+		// });
+
+	    $.getJSON('http://localhost:5011/get-directories', function(dirs) {
+			$.each(dirs, function(key, value) {
+				$('#choose-directory').append("<option>" + value + "</option>");
+			});
+	    });
+
+		// TODO: Replace click with menu select 
+		$('#choose-directory').change(function() {
+			console.log($(this).val()); 
+			// TODO: Call SimpleNoteDocServer.getFiles(selectedDir)
+
+			// $('#directory-chooser').each(function(index, element) {
+			// 	console.log($(this).val()); 
+			// });
+		});
+		// TODO: Replace click with menu select 
+		$('#choose-file').click(function() {
+			console.log("pressed"); 
+			// TODO: Call SimpleNoteDocServer.getNoteDocument(selectedDir, selectedFile)
+			$('#file-chooser').each(function(index, element) {
+				console.log(element); 
+			});
+		});
+
+	});
+</script>
 </body>
 </html>
