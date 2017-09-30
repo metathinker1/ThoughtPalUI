@@ -6,43 +6,40 @@
 <script type="text/javascript" src="noteDocAccess.js"></script>
 </head>
 <body>
-<p>Hello, world!</p>
 	<div id="note-doc-controller">
-	<p>note-doc-controller</p>
+	<h2>Choose Directory:</h2>
+	<select id="choose-directory" class="dropbtn">Choose Directory</select>
+	<h2>Choose File:</h2>
+	<select id="choose-file" class="dropbtn">Choose File</select>
 	</div>
-	<div id="directory-chooser">
-	<h2>Choose Directory</h2>
-	<select id="choose-directory" class="dropbtn">Choose Directory</button>
+	<div id="note-doc-summary">
 	</div>
-	<div id="file-chooser">
-	<p>file-chooser</p>
-	</div>
-	<button id="choose-file">Choose File</button>
 <script type="text/javascript">
 	// TODO: Invg Why nested div did not work 
 	// TODO: Add drop down list to $('#choose-directory') and switch usage below to use
 	$(document).ready(function() {
-		$("#note-doc-controller").text("Doc is ready");
-		$('#choose-directory').append("<option>None selected</option>");
+		// $("#note-doc-controller").text("Doc is ready");
 		// const dirs = getDirectories($);
 		// for (var ix = 0; ix < dirs.length; ix++) {
 		// 	console.log(dirs[ix] + ", ");
 		// 	// See for doing with JSON: https://stackoverflow.com/questions/18484762/populating-drop-down-with-json-object
 		// 	$('#choose-directory').append("<option>" + dirs[ix] + "</option>");
 		// }
-		
+
 		// const dirs = getDirectories($);
 		// $.each(dirs, function(key, value) {
 		// 	$('#choose-directory').append("<option>" + value + "</option>");
 		// });
 
 	    $.getJSON('http://localhost:5011/get-directories', function(dirs) {
+			$('#choose-directory').empty();
+			$('#choose-directory').append("<option>None selected</option>");
 			$.each(dirs, function(key, value) {
 				$('#choose-directory').append("<option>" + value + "</option>");
 			});
 	    });
+	    $('#choose-file').append("<option>None Selected</option>");
 
-		// TODO: Replace click with menu select 
 		$('#choose-directory').change(function() {
 			console.log($(this).val()); 
 			// TODO: Call SimpleNoteDocServer.getFiles(selectedDir)
@@ -51,15 +48,40 @@
 			// 	console.log($(this).val()); 
 			// });
 		});
-		// TODO: Replace click with menu select 
-		$('#choose-file').click(function() {
-			console.log("pressed"); 
-			// TODO: Call SimpleNoteDocServer.getNoteDocument(selectedDir, selectedFile)
-			$('#file-chooser').each(function(index, element) {
-				console.log(element); 
-			});
-		});
 
+		$('#choose-directory').change(function() {
+			// TODO: Check selection is not 'None Selected'
+			console.log($(this).val());
+			const url = 'http://localhost:5011/get-files?dir='+$(this).val();
+			console.log(url);
+		    $.getJSON(url, function(files) {
+		    	$('#choose-file').empty();
+				$('#choose-file').append("<option>None selected</option>");
+				$.each(files, function(key, value) {
+					$('#choose-file').append("<option>" + value + "</option>");
+				});
+		    });	
+		});			
+
+		$('#choose-file').change(function() {
+			// TODO: Check both selections is not 'None Selected'
+			// http://localhost:5010/parse?dir=AppDev&file=AppDevFW.AWS.nodoc
+			const url = 'http://localhost:5010/parse?dir='+$('#choose-directory').val()+'&file='+$('#choose-file').val();
+			console.log(url);
+			// Use ajax() instead of getJSON() because easier to pass outline as HTML snippet
+		    $.ajax({
+		    	type: "GET",
+		    	url: url,
+		    	dataType: "html",
+		    	success: function(summaryHTML) {
+			    	$('#note-doc-summary').html(summaryHTML);
+				},
+				error: function(xhr, ajaxOptions, thrownError) {
+					console.log(thrownError);
+				}
+		    });			    
+
+		});
 	});
 </script>
 </body>
