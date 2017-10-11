@@ -7,15 +7,20 @@
 <link rel="stylesheet" type="text/css" href="./css/note-document.css">
 </head>
 <body>
-	<div id="note-doc-controller">
-	<h2>Choose Directory:</h2>
-	<select id="choose-directory" class="dropbtn">Choose Directory</select>
-	<h2>Choose File:</h2>
-	<select id="choose-file" class="dropbtn">Choose File</select>
-	</div>
-	<div id="note-doc-summary">
-	</div>
-	<div id="example" class="rounded-corners">
+	<div id="note-doc-viewer">
+		<div id="note-doc-controller" >
+			<!-- <h2>Choose Directory:</h2> -->
+			<select id="choose-directory" class="dropbtn left">Choose Directory</select>
+			<!-- <h2>Choose File:</h2> 
+			<span id="span-controller">Span Hack</span> -->
+			<select id="choose-file" class="dropbtn left">Choose File</select>
+		</div>
+		<div id="note-doc-text">
+			<div id="note-doc-raw-text" class="rounded-corners left">
+			</div>
+			<div id="note-doc-summary" class="rounded-corners left">
+			</div>
+		</div>
 	</div>
 <script type="text/javascript">
 	// TODO: Invg Why nested div did not work 
