@@ -13,12 +13,12 @@ const getDirectories = (function($) {
   //   });
 
   // TODO: Resolve CORS, and then reenable:
-  return function() {
-    // http://api.jquery.com/jquery.getjson/
-    $.getJSON('http://localhost:5011/get-directories', function(data) {
-    	$("#note-doc-controller").text(data);
-    });
-  }
+  // return function() {
+  //   // http://api.jquery.com/jquery.getjson/
+  //   $.getJSON('http://localhost:5011/get-directories', function(data) {
+  //   	$("#note-doc-controller").text(data);
+  //   });
+  // }
 
   return [ 'AAA_Archive','ASD','AlgoTrading'];
   
